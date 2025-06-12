@@ -3,15 +3,14 @@ package com.ac.dha.DTO.request;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 //
 //@Data
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Builder
+@Data
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HeaderDTO {
 
@@ -29,47 +28,5 @@ public class HeaderDTO {
 
 	@XmlElement(name = "DispositionFlag")
 	private String dispositionFlag;
-
-	public String getSenderID() {
-		return senderID;
-	}
-
-	public void setSenderID(String senderID) {
-		this.senderID = senderID;
-	}
-
-	public String getReceiverID() {
-		return receiverID;
-	}
-
-	public void setReceiverID(String receiverID) {
-		this.receiverID = receiverID;
-	}
-
-	public String getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(String transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	public int getRecordCount() {
-		return recordCount;
-	}
-
-	public void setRecordCount(int recordCount) {
-		this.recordCount = recordCount;
-	}
-
-	public String getDispositionFlag() {
-		return dispositionFlag;
-	}
-
-	public void setDispositionFlag(String dispositionFlag) {
-		this.dispositionFlag = dispositionFlag;
-	}
-	
-	
 
 }

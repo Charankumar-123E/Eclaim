@@ -24,13 +24,13 @@ public class UploadERxAuthorizationForUserDTO {
 	@XmlElement(name = "FileName")
 	private String fileName;
 
-	private ErxRequestDTO priorRequest;
+	private ClinicalErxRequestDTO priorRequest;
 
-	public ErxRequestDTO getPriorRequest() {
+	public ClinicalErxRequestDTO getPriorRequest() {
 		return priorRequest;
 	}
 
-	public void setPriorRequest(ErxRequestDTO priorRequest) {
+	public void setPriorRequest(ClinicalErxRequestDTO priorRequest) {
 		this.priorRequest = priorRequest;
 	}
 

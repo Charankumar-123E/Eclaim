@@ -5,19 +5,16 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
+
 @XmlRootElement(name = "Prior.Request")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ErxRequestDTO {
+public class ClinicalErxRequestDTO {
 
 	@XmlElement(name = "Header")
 	private HeaderDTO header;
 
 	@XmlElement(name = "Authorization")
-	private AuthorizationDTO authorization;
+	private ClinicalAuthorizationDTO authorization;
 
 	public HeaderDTO getHeader() {
 		return header;
@@ -27,11 +24,11 @@ public class ErxRequestDTO {
 		this.header = header;
 	}
 
-	public AuthorizationDTO getAuthorization() {
+	public ClinicalAuthorizationDTO getAuthorization() {
 		return authorization;
 	}
 
-	public void setAuthorization(AuthorizationDTO authorization) {
+	public void setAuthorization(ClinicalAuthorizationDTO authorization) {
 		this.authorization = authorization;
 	}
 

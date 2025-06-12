@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PharmacyDiagnosisDTO {
+public class PharamacyDiagnosisDTO {
 
 	@XmlElement(name = "Type")
     private String type;

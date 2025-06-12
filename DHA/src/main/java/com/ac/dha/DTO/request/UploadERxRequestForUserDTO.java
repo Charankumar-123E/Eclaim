@@ -25,7 +25,7 @@ public class UploadERxRequestForUserDTO {
 	@XmlElement(name = "FileName")
 	private String fileName;
 	
-	private ErxRequestDTO priorRequest;
+	private ClinicalErxRequestDTO priorRequest;
 
 
 	public String getFacilityLogin() {
@@ -81,12 +81,12 @@ public class UploadERxRequestForUserDTO {
 	
 
 
-	public ErxRequestDTO getPriorRequest() {
+	public ClinicalErxRequestDTO getPriorRequest() {
 		return priorRequest;
 	}
 
 
-	public void setPriorRequest(ErxRequestDTO priorRequest) {
+	public void setPriorRequest(ClinicalErxRequestDTO priorRequest) {
 		this.priorRequest = priorRequest;
 	}
 	
@@ -94,7 +94,7 @@ public class UploadERxRequestForUserDTO {
 
 	public UploadERxRequestForUserDTO(String facilityLogin, String facilityPwd, String clinicianLogin,
 			String clinicianPwd, String fileName, Integer eRxReferenceNo, String errorMessage, byte[] errorReport,
-			ErxRequestDTO priorRequest) {
+			ClinicalErxRequestDTO priorRequest) {
 		super();
 		this.facilityLogin = facilityLogin;
 		this.facilityPwd = facilityPwd;

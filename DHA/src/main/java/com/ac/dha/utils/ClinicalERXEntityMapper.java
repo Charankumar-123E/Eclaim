@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.ac.dha.DTO.request.ActivityDTO;
-import com.ac.dha.DTO.request.AuthorizationDTO;
-import com.ac.dha.DTO.request.DiagnosisDTO;
+import com.ac.dha.DTO.request.ClinicalActivityDTO;
+import com.ac.dha.DTO.request.ClinicalAuthorizationDTO;
+import com.ac.dha.DTO.request.ClinicalDiagnosisDTO;
+import com.ac.dha.DTO.request.ClinicalErxRequestDTO;
+import com.ac.dha.DTO.request.ClinicalObservationDTO;
 import com.ac.dha.DTO.request.EncounterDTO;
-import com.ac.dha.DTO.request.ErxRequestDTO;
 import com.ac.dha.DTO.request.HeaderDTO;
-import com.ac.dha.DTO.request.ObservationDTO;
 import com.ac.dha.entity.Activity;
 import com.ac.dha.entity.Authorization;
 import com.ac.dha.entity.Diagnosis;
@@ -21,9 +21,9 @@ import com.ac.dha.entity.Observation;
 import com.ac.dha.entity.PriorRequest;
 
 @Component
-public class ERXEntityMapper {
+public class ClinicalERXEntityMapper {
 
-	public PriorRequest toPriorRequest(ErxRequestDTO dto) {
+	public PriorRequest toPriorRequest(ClinicalErxRequestDTO dto) {
 		PriorRequest priorRequest = new PriorRequest();
 		priorRequest.setHeader(toHeader(dto.getHeader()));
 		priorRequest.setAuthorization(toAuthorization(dto.getAuthorization()));
@@ -43,7 +43,7 @@ public class ERXEntityMapper {
 		return header;
 	}
 
-	private Authorization toAuthorization(AuthorizationDTO dto) {
+	private Authorization toAuthorization(ClinicalAuthorizationDTO dto) {
 		if (dto == null) {
 			return null;
 		}
@@ -55,14 +55,6 @@ public class ERXEntityMapper {
 		authorization.setEmiratesIDNumber(dto.getEmiratesIDNumber());
 		authorization.setDateOrdered(dto.getDateOrdered());
 		authorization.setEncounter(toEncounter(dto.getEncounter()));
-//		  UUID.randomUUID();
-
-//		List<Diagnosis> diagnosisDTO = dto.getDiagnoses();
-//		authorization.setDiagnoses(diagnosisDTO != null
-//				? diagnosisDTO.stream().map(this::toDiagnosis)
-//						.peek(diagnosis -> diagnosis.setAuthorization(authorization)).collect(Collectors.toList())
-//				: new ArrayList<>());
-
 		if (dto.getDiagnoses() != null) {
 			List<Diagnosis> diagnoses = dto.getDiagnoses().stream().map(this::toDiagnosis).collect(Collectors.toList());
 			diagnoses.forEach(diagnosis -> diagnosis.setAuthorization(authorization));
@@ -74,30 +66,6 @@ public class ERXEntityMapper {
 			activities.forEach(activity -> activity.setAuthorization(authorization));
 			authorization.setActivities(activities);
 		}
-
-//		if (dto.getObservation() != null) {
-//			List<Observation> observations = dto.getObservation().stream().map(this::toObservation)
-//					.collect(Collectors.toList());
-//			observations.forEach(observation -> observation.setAuthorizationId(authorization));
-//			authorization.setObservations(observations);
-//		}
-//		List<Activity> activityDTO = dto.getActivities();
-//		authorization
-//				.setActivities(activityDTO != null
-//						? activityDTO.stream().map(this::toActivity)
-//								.peek(activity -> activity.setAuthorization(authorization)).collect(Collectors.toList())
-//						: new ArrayList<>());
-
-//		List<Observation> observationDTO = dto.getObservation();
-//		authorization.setObservations(
-//				observationDTO != null ? observationDTO.stream().map(dtoObs ->toObservation(dtoObs, authorization)).peek(observation -> observation.setAuthorizationId(authorization)).collect(Collectors.toList())
-//						: new ArrayList<>());
-//		
-//		authorization.setObservations(
-//				dto.getObservation() != null
-//						? observationDTO.stream().map(dtoObs -> toObservation(dtoObs, authorization))
-//								.collect(Collectors.toList())
-//						: new ArrayList<>());
 
 		return authorization;
 	}
@@ -113,7 +81,7 @@ public class ERXEntityMapper {
 		return encounter;
 	}
 
-	private Diagnosis toDiagnosis(DiagnosisDTO dto) {
+	private Diagnosis toDiagnosis(ClinicalDiagnosisDTO dto) {
 		if (dto == null) {
 			return null;
 		}
@@ -123,7 +91,7 @@ public class ERXEntityMapper {
 		return diagnosis;
 	}
 
-	private Activity toActivity(ActivityDTO dto) {
+	private Activity toActivity(ClinicalActivityDTO dto) {
 		if (dto == null)
 			return null;
 		Activity activity = new Activity();
@@ -144,7 +112,7 @@ public class ERXEntityMapper {
 		return activity;
 	}
 
-	private Observation toObservation(ObservationDTO dto) {
+	private Observation toObservation(ClinicalObservationDTO dto) {
 		if (dto == null)
 			return null;
 		Observation observation = new Observation();

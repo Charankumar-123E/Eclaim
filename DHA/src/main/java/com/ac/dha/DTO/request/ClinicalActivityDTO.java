@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 //@NoArgsConstructor
 //@Builder
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ActivityDTO {
+public class ClinicalActivityDTO {
 
 	@XmlElement(name = "ID")
 	private String id;
@@ -39,7 +39,7 @@ public class ActivityDTO {
 	private String clinician;
 
 	@XmlElement(name = "Observation")
-	private List<ObservationDTO> observations;
+	private List<ClinicalObservationDTO> observations;
 	
 	
 
@@ -99,11 +99,11 @@ public class ActivityDTO {
 		this.clinician = clinician;
 	}
 
-	public List<ObservationDTO> getObservations() {
+	public List<ClinicalObservationDTO> getObservations() {
 		return observations;
 	}
 
-	public void setObservations(List<ObservationDTO> observations) {
+	public void setObservations(List<ClinicalObservationDTO> observations) {
 		this.observations = observations;
 	}
 

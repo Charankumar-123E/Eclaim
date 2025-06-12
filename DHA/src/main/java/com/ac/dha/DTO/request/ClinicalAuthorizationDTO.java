@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 //@NoArgsConstructor
 //@Builder
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AuthorizationDTO {
+public class ClinicalAuthorizationDTO {
 
 	@XmlElement(name = "Type")
 	private String type;
@@ -35,13 +35,13 @@ public class AuthorizationDTO {
 	private EncounterDTO encounter;
 
 	@XmlElement(name = "Diagnosis")
-	private List<DiagnosisDTO> diagnoses;
+	private List<ClinicalDiagnosisDTO> diagnoses;
 
 	@XmlElement(name = "Activity")
-	private List<ActivityDTO> activities;
+	private List<ClinicalActivityDTO> activities;
 
 	@XmlElement(name = "Observation")
-	private List<ObservationDTO> observation;
+	private List<ClinicalObservationDTO> observation;
 
 	public String getType() {
 		return type;
@@ -99,33 +99,33 @@ public class AuthorizationDTO {
 		this.encounter = encounter;
 	}
 
-	public List<DiagnosisDTO> getDiagnoses() {
+	public List<ClinicalDiagnosisDTO> getDiagnoses() {
 		return diagnoses;
 	}
 
-	public void setDiagnoses(List<DiagnosisDTO> diagnoses) {
+	public void setDiagnoses(List<ClinicalDiagnosisDTO> diagnoses) {
 		this.diagnoses = diagnoses;
 	}
 
-	public List<ActivityDTO> getActivities() {
+	public List<ClinicalActivityDTO> getActivities() {
 		return activities;
 	}
 
-	public void setActivities(List<ActivityDTO> activities) {
+	public void setActivities(List<ClinicalActivityDTO> activities) {
 		this.activities = activities;
 	}
 
-	public List<ObservationDTO> getObservation() {
+	public List<ClinicalObservationDTO> getObservation() {
 		return observation;
 	}
 
-	public void setObservation(List<ObservationDTO> observation) {
+	public void setObservation(List<ClinicalObservationDTO> observation) {
 		this.observation = observation;
 	}
 
-	public AuthorizationDTO(String type, String id, String memberID, String payerID, String emiratesIDNumber,
-			String dateOrdered, EncounterDTO encounter, List<DiagnosisDTO> diagnoses, List<ActivityDTO> activities,
-			List<ObservationDTO> observation) {
+	public ClinicalAuthorizationDTO(String type, String id, String memberID, String payerID, String emiratesIDNumber,
+			String dateOrdered, EncounterDTO encounter, List<ClinicalDiagnosisDTO> diagnoses, List<ClinicalActivityDTO> activities,
+			List<ClinicalObservationDTO> observation) {
 		super();
 		this.type = type;
 		this.id = id;

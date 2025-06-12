@@ -1,5 +1,6 @@
 package com.ac.dha.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,8 +43,10 @@ public class PharmacyActivity {
 
 	private String instructions;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "frequency_id")
 	private Frequency frequency;
+
 
 	@ManyToOne
 	@JoinColumn(name = "prescription_id")

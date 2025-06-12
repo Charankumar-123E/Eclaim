@@ -13,13 +13,19 @@ import lombok.NoArgsConstructor;
 //@NoArgsConstructor
 //@Builder
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DiagnosisDTO {
+public class ClinicalObservationDTO {
 
 	@XmlElement(name = "Type")
 	private String type;
 
 	@XmlElement(name = "Code")
 	private String code;
+
+	@XmlElement(name = "Value")
+	private String value;
+
+	@XmlElement(name = "ValueType")
+	private String valueType;
 
 	public String getType() {
 		return type;
@@ -36,5 +42,23 @@ public class DiagnosisDTO {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getValueType() {
+		return valueType;
+	}
+
+	public void setValueType(String valueType) {
+		this.valueType = valueType;
+	}
+	
+	
 
 }

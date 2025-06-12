@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import com.ac.dha.DTO.request.EncounterDTO;
 import com.ac.dha.DTO.request.FrequencyDTO;
 import com.ac.dha.DTO.request.HeaderDTO;
-import com.ac.dha.DTO.request.PActivityDTO;
 import com.ac.dha.DTO.request.PatientDTO;
-import com.ac.dha.DTO.request.PharmacyDiagnosisDTO;
-import com.ac.dha.DTO.request.PharmacyErxDTO;
-import com.ac.dha.DTO.request.PrescriptionDTO;
+import com.ac.dha.DTO.request.PharamacyActivityDTO;
+import com.ac.dha.DTO.request.PharamacyDiagnosisDTO;
+import com.ac.dha.DTO.request.PharamacyErxDTO;
+import com.ac.dha.DTO.request.PharamacyPrescriptionDTO;
 import com.ac.dha.entity.Encounter;
 import com.ac.dha.entity.Frequency;
 import com.ac.dha.entity.Header;
@@ -26,13 +26,7 @@ import com.ac.dha.entity.Prescription;
 @Component
 public class PharmacyEntityMapper {
 
-	private final ERXEntityMapper eRXEntityMapper;
-
-	PharmacyEntityMapper(ERXEntityMapper eRXEntityMapper) {
-		this.eRXEntityMapper = eRXEntityMapper;
-	}
-
-	public PharmacyERXRequest toPharmacyERXRequest(PharmacyErxDTO dto) {
+	public PharmacyERXRequest toPharmacyERXRequest(PharamacyErxDTO dto) {
 		PharmacyERXRequest request = new PharmacyERXRequest();
 		request.setHeader(toHeader(dto.getHeader()));
 		request.setPrescription(toPrescription(dto.getPrescription()));
@@ -49,7 +43,7 @@ public class PharmacyEntityMapper {
 		return header;
 	}
 
-	private Prescription toPrescription(PrescriptionDTO dto) {
+	private Prescription toPrescription(PharamacyPrescriptionDTO dto) {
 		Prescription prescription = new Prescription();
 
 		prescription.setPresId(dto.getId());
@@ -108,7 +102,7 @@ public class PharmacyEntityMapper {
 		return patient;
 	}
 
-	private PharmacyDiagnosis toPharmacyDiagnosis(PharmacyDiagnosisDTO dto) {
+	private PharmacyDiagnosis toPharmacyDiagnosis(PharamacyDiagnosisDTO dto) {
 		PharmacyDiagnosis diagnosis = new PharmacyDiagnosis();
 		diagnosis.setUniq_id(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 		diagnosis.setType(dto.getType());
@@ -116,7 +110,7 @@ public class PharmacyEntityMapper {
 		return diagnosis;
 	}
 
-	private PharmacyActivity toPharmacyActivity(PActivityDTO dto) {
+	private PharmacyActivity toPharmacyActivity(PharamacyActivityDTO dto) {
 		PharmacyActivity activity = new PharmacyActivity();
 		activity.setUniq_id(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 		activity.setPhActId(dto.getId());

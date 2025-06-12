@@ -11,7 +11,7 @@ import lombok.Data;
 @XmlRootElement(name = "Prescription")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class PrescriptionDTO {
+public class PharamacyPrescriptionDTO {
 
 	@XmlElement(name = "ID")
 	private String id;
@@ -32,9 +32,9 @@ public class PrescriptionDTO {
 	private EncounterDTO encounter;
 
 	@XmlElement(name = "Diagnosis")
-	private List<PharmacyDiagnosisDTO> pharmDiagnosis;
+	private List<PharamacyDiagnosisDTO> pharmDiagnosis;
 
 	@XmlElement(name = "Activity")
-	private List<PActivityDTO> pharmActivity;
+	private List<PharamacyActivityDTO> pharmActivity;
 
 }

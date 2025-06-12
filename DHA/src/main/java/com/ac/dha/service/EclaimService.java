@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.ac.dha.DTO.request.DownloadTransactionFileRequestDTO;
-import com.ac.dha.DTO.request.ErxRequestDTO;
 import com.ac.dha.DTO.request.GetNewTransactionsRequestDTO;
 import com.ac.dha.DTO.request.GeteRxTransactionRequestDTO;
+import com.ac.dha.DTO.request.PharamacyErxDTO;
 import com.ac.dha.DTO.request.SearchTransactionsRequestDTO;
 import com.ac.dha.DTO.request.SetTransactionDownloadedRequestDTO;
 import com.ac.dha.DTO.request.UploadERxRequestDTO;
@@ -36,7 +36,7 @@ import com.ac.dha.DTO.response.UploadERxRequestResponseDTO;
 import com.ac.dha.entity.DownloadTransactionFileRequest;
 import com.ac.dha.entity.GetNewTransactionsRequest;
 import com.ac.dha.entity.GeteRxTransactionReques;
-import com.ac.dha.entity.PriorRequest;
+import com.ac.dha.entity.PharmacyERXRequest;
 import com.ac.dha.entity.SearchTransactionsRequest;
 import com.ac.dha.entity.SetTransactionDownloadedRequest;
 import com.ac.dha.entity.UploadERxRequest;
@@ -47,7 +47,7 @@ import com.ac.dha.repository.PriorRequestRepository;
 import com.ac.dha.repository.SearchTransactionsRepository;
 import com.ac.dha.repository.SetTransactionDownloadedRepository;
 import com.ac.dha.repository.UploadERxRequestClinicRepository;
-import com.ac.dha.utils.ERXEntityMapper;
+import com.ac.dha.utils.PharmacyEntityMapper;
 import com.ac.dha.utils.XmlUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,6 +60,9 @@ public class EclaimService {
 
 	@Value("${dha.base-url}")
 	private String baseUrl;
+
+	@Value("${eclaim.endpoint.url}")
+	private String eclaimUrl;
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
@@ -92,44 +95,60 @@ public class EclaimService {
 	public static final Logger log = LoggerFactory.getLogger(EclaimService.class);
 
 	@Autowired
-	private ERXEntityMapper dtoToEntityMapper;
+	private PharmacyEntityMapper dtoToEntityMapper;
 
-	private String url;
-
-	public ResponseEntity<String> sendPriorRequestToEclaim(ErxRequestDTO priorRequest) {
-//		String url =  baseUrl + "/getNewTransactions";
+	public ResponseEntity<String> sendPriorRequestToEclaim(PharamacyErxDTO priorRequest) {
 		try {
-			log.info("Req Format ", priorRequest.getAuthorization());
 			log.debug("XML Format ", xmlUtil.convertToXml(priorRequest));
 			byte[] xmlPayload = xmlUtil.convertToXml(priorRequest);
 			System.out.println("Convert XML to byte[]\n------------>" + xmlPayload);
-
 			System.out.println("XML Payload byte[] length: " + xmlPayload.length);
-
 			String xmlFormat = new String(xmlPayload, StandardCharsets.UTF_8);
 			System.out.println(" XML Payload as String:\n ------>" + xmlFormat);
-
-			PriorRequest entity = dtoToEntityMapper.toPriorRequest(priorRequest);
+			PharmacyERXRequest entity = dtoToEntityMapper.toPharmacyERXRequest(priorRequest);
 			priorRequestRepository.save(entity);
 			log.info("PriorRequest saved to database with ID: {}", entity.getId());
-
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_XML);
 			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-
-			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/send_eclaim", requestEntity,
-					String.class);
-
+			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl, requestEntity, String.class);
 			log.info("Response Status Code: ", response.getStatusCodeValue());
 			log.info("Response Body:\n", response.getBody());
-
 			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-
 		} catch (Exception e) {
 			log.error("Exception in sendPriorRequestToEclaim: ", e);
 			return ResponseEntity.status(500).body("Error: " + e.getMessage());
 		}
 	}
+
+	// public ResponseEntity<String> sendPriorRequestToEclaim(PharamacyErxDTO
+	// priorRequest) {
+	// try {
+	// log.debug("XML Format ", xmlUtil.convertToXml(priorRequest));
+	// byte[] xmlPayload = xmlUtil.convertToXml(priorRequest);
+	// System.out.println("Convert XML to byte[]\n------------>" + xmlPayload);
+	// System.out.println("XML Payload byte[] length: " + xmlPayload.length);
+	// String xmlFormat = new String(xmlPayload, StandardCharsets.UTF_8);
+	// System.out.println(" XML Payload as String:\n ------>" + xmlFormat);
+	// PharmacyERXRequest entity =
+	// dtoToEntityMapper.toPharmacyERXRequest(priorRequest); // Now matches the DTO
+	// input
+	// priorRequestRepository.save(entity);
+	// log.info("PharmacyERXRequest saved to database with ID: {}", entity.getId());
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl,
+	// requestEntity, String.class);
+	// log.info("Response Status Code: ", response.getStatusCodeValue());
+	// log.info("Response Body:\n", response.getBody());
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// log.error("Exception in sendPriorRequestToEclaim: ", e);
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 
 	public ResponseEntity<String> uploadERxRequest(UploadERxRequestForUserDTO requestFromUser) {
 		try {
@@ -178,7 +197,7 @@ public class EclaimService {
 			headers.setContentType(MediaType.APPLICATION_XML);
 			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlUtil.convertToXml(request), headers);
 
-			ResponseEntity<String> apiResponse = restTemplate.postForEntity(baseUrl  + "/uploadERxRequest",
+			ResponseEntity<String> apiResponse = restTemplate.postForEntity(baseUrl + "/uploadERxRequest",
 					requestEntity, String.class);
 			log.info("External API status: {}, body: {}", apiResponse.getStatusCodeValue(), apiResponse.getBody());
 
@@ -220,7 +239,7 @@ public class EclaimService {
 
 	@Transactional
 	public ResponseEntity<String> getNewTransactions(GetNewTransactionsRequestDTO requestDTO) {
-//		String url =  baseUrl + "/getNewTransactions";
+		// String url = baseUrl + "/getNewTransactions";
 		if (requestDTO == null) {
 			throw new IllegalArgumentException("Missing requestDTO");
 		}
@@ -268,7 +287,7 @@ public class EclaimService {
 	}
 
 	private void processResponse(GetNewTransactionsRequest record, String responseBody) {
-//	    String cleanedResponse = cleanXmlResponse(responseBody);
+		// String cleanedResponse = cleanXmlResponse(responseBody);
 
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(GetNewTransactionsResponseDTO.class);
@@ -289,57 +308,62 @@ public class EclaimService {
 	}
 
 	// Fallback XML parsing
-//        try {
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-//            DocumentBuilder builder = factory.newDocumentBuilder();
-//            Document doc = builder.parse(new InputSource(new StringReader(cleanedResponse)));
-//            doc.getDocumentElement().normalize();
-//
-//            NodeList xmlNode = doc.getElementsByTagName("XmlTransactions");
-//            if (xmlNode.getLength() > 0) {
-//                record.setXmlTransactions(xmlNode.item(0).getTextContent().trim());
-//            }
-//
-//            NodeList errorMsgNode = doc.getElementsByTagName("ErrorMessage");
-//            if (errorMsgNode.getLength() > 0) {
-//                record.setErrorMessage(errorMsgNode.item(0).getTextContent().trim());
-//            }
-//
-//        } catch (Exception e) {
-//            log.error("Fallback XML parsing failed", e);
-//            record.setErrorMessage("Failed to parse response: " + e.getMessage());
-//        }
-//    }
+	// try {
+	// DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	// factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+	// true);
+	// DocumentBuilder builder = factory.newDocumentBuilder();
+	// Document doc = builder.parse(new InputSource(new
+	// StringReader(cleanedResponse)));
+	// doc.getDocumentElement().normalize();
+	//
+	// NodeList xmlNode = doc.getElementsByTagName("XmlTransactions");
+	// if (xmlNode.getLength() > 0) {
+	// record.setXmlTransactions(xmlNode.item(0).getTextContent().trim());
+	// }
+	//
+	// NodeList errorMsgNode = doc.getElementsByTagName("ErrorMessage");
+	// if (errorMsgNode.getLength() > 0) {
+	// record.setErrorMessage(errorMsgNode.item(0).getTextContent().trim());
+	// }
+	//
+	// } catch (Exception e) {
+	// log.error("Fallback XML parsing failed", e);
+	// record.setErrorMessage("Failed to parse response: " + e.getMessage());
+	// }
+	// }
 
-//    private String cleanXmlResponse2(String xml) {
-//        if (xml == null)
-//            return "";
-//        String cleaned = xml.replaceAll("^[\\W]+<\\?xml", "<?xml");
-//        if (!cleaned.startsWith("<?xml")) {
-//            cleaned = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + cleaned;
-//        }
-//        return cleaned;
-//    }
+	// private String cleanXmlResponse2(String xml) {
+	// if (xml == null)
+	// return "";
+	// String cleaned = xml.replaceAll("^[\\W]+<\\?xml", "<?xml");
+	// if (!cleaned.startsWith("<?xml")) {
+	// cleaned = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + cleaned;
+	// }
+	// return cleaned;
+	// }
 
-//	public ResponseEntity<String> getNewTransactions(GetNewTransactionsRequestDTO dto) {
-//		try {
-//			byte[] xmlPayload = xmlUtil.convertToXml(dto);
-//			System.out.println("xmlPayload=>"+xmlPayload.toString());
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_XML);
-//			headers.set("login", dto.getLogin());
-//			headers.set("pwd", dto.getPwd());
-//			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-//
-//			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl + "/GetNewTransactions",
-//					requestEntity, String.class);
-//
-//			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-//		} catch (Exception e) {
-//			return ResponseEntity.status(500).body("Error: " + e.getMessage());
-//		}
-//	}
+	// public ResponseEntity<String> getNewTransactions(GetNewTransactionsRequestDTO
+	// dto) {
+	// try {
+	// byte[] xmlPayload = xmlUtil.convertToXml(dto);
+	// System.out.println("xmlPayload=>"+xmlPayload.toString());
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// headers.set("login", dto.getLogin());
+	// headers.set("pwd", dto.getPwd());
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	//
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl +
+	// "/GetNewTransactions",
+	// requestEntity, String.class);
+	//
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 
 	@Transactional
 	public ResponseEntity<String> geteRxTransaction(GeteRxTransactionRequestDTO dto) {
@@ -388,7 +412,8 @@ public class EclaimService {
 	}
 
 	private void processGeteRxTransactionResponse(GeteRxTransactionReques record, String responseBody) {
-//        String cleanedResponse = cleanXmlResponse(responseBody); // optional if DHA wraps XML with headers
+		// String cleanedResponse = cleanXmlResponse(responseBody); // optional if DHA
+		// wraps XML with headers
 
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(GeteRxTransactionResponseDTO.class);
@@ -407,45 +432,49 @@ public class EclaimService {
 		}
 	}
 
-//            if (responseDTO.getXmlTransactions() != null && !responseDTO.getXmlTransactions().isEmpty()) {
-//                JAXBContext innerCtx = JAXBContext.newInstance(PriorRequest.class);
-//                Unmarshaller innerUnmarshaller = innerCtx.createUnmarshaller();
-//                PriorRequest erxData = (PriorRequest) innerUnmarshaller.unmarshal(
-//                        new StringReader(responseDTO.getXmlTransactions()));
-//
-//                // 🔧 Set additional required fields manually
-//                erxData.setUniqId(UUID.randomUUID().toString());
-//                erxData.setCreateBy("system"); // or fetch from logged-in user
-//                erxData.setCreateOn(Instant.now().getEpochSecond());
-//
-//                // Optionally log to debug
-//                log.info("Saving PriorRequest: {}", erxData);
-//                System.out.println("Saving PriorRequest: {}" + erxData);
-//
-//                eclaimRepository.save(erxData);
-//            }
+	// if (responseDTO.getXmlTransactions() != null &&
+	// !responseDTO.getXmlTransactions().isEmpty()) {
+	// JAXBContext innerCtx = JAXBContext.newInstance(PriorRequest.class);
+	// Unmarshaller innerUnmarshaller = innerCtx.createUnmarshaller();
+	// PriorRequest erxData = (PriorRequest) innerUnmarshaller.unmarshal(
+	// new StringReader(responseDTO.getXmlTransactions()));
+	//
+	// // 🔧 Set additional required fields manually
+	// erxData.setUniqId(UUID.randomUUID().toString());
+	// erxData.setCreateBy("system"); // or fetch from logged-in user
+	// erxData.setCreateOn(Instant.now().getEpochSecond());
+	//
+	// // Optionally log to debug
+	// log.info("Saving PriorRequest: {}", erxData);
+	// System.out.println("Saving PriorRequest: {}" + erxData);
+	//
+	// eclaimRepository.save(erxData);
+	// }
 
-//	public ResponseEntity<String> geteRxTransaction(GeteRxTransactionRequestDTO dto) {
-//
-//		try {
-//			byte[] xmlPayload = xmlUtil.convertToXml(dto);
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.set("login", dto.getLogin());
-//			headers.set("pwd", dto.getPwd());
-//			headers.set("memberID", String.valueOf(dto.getMemberID()));
-//			headers.set("eRxReferenceNo", String.valueOf(dto.geteRxReferenceNo()));
-//
-//			headers.setContentType(MediaType.APPLICATION_XML);
-//			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-//
-//			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl + "/GeteRxTransaction",
-//					requestEntity, String.class);
-//
-//			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-//		} catch (Exception e) {
-//			return ResponseEntity.status(500).body("Error: " + e.getMessage());
-//		}
-//	}
+	// public ResponseEntity<String> geteRxTransaction(GeteRxTransactionRequestDTO
+	// dto) {
+	//
+	// try {
+	// byte[] xmlPayload = xmlUtil.convertToXml(dto);
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.set("login", dto.getLogin());
+	// headers.set("pwd", dto.getPwd());
+	// headers.set("memberID", String.valueOf(dto.getMemberID()));
+	// headers.set("eRxReferenceNo", String.valueOf(dto.geteRxReferenceNo()));
+	//
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	//
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl +
+	// "/GeteRxTransaction",
+	// requestEntity, String.class);
+	//
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 
 	@Transactional
 	public ResponseEntity<String> searchTransactions(SearchTransactionsRequestDTO dto) {
@@ -476,8 +505,8 @@ public class EclaimService {
 
 			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
 
-			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl  + "/SearchTransactions",
-					requestEntity, String.class);
+			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/SearchTransactions", requestEntity,
+					String.class);
 
 			String responseBody = response.getBody();
 			record.setResponseStatus(response.getStatusCode().toString());
@@ -515,34 +544,40 @@ public class EclaimService {
 		}
 	}
 
-//	public ResponseEntity<String> searchTransactions(SearchTransactionsRequestDTO dto) {
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-//		try {
-//			byte[] xmlPayload = xmlUtil.convertToXml(dto);
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.set("login", dto.getLogin());
-//			headers.set("pwd", dto.getPwd());
-//			headers.set("direction", dto.getDirection());
-//			headers.set("callerLicense", dto.getCallerLicense());
-//			headers.set("clinicianLicense", dto.getClinicianLicense());
-//			headers.set("memberID", String.valueOf(dto.getMemberID()));
-//			headers.set("eRxReferenceNo", String.valueOf(dto.geteRxReferenceNo()));
-//			headers.set("transactionStatus", dto.getTransactionStatus());
-//			headers.set("transactionFromDate", dto.getTransactionFromDate().format(formatter));
-//			headers.set("transactionToDate", dto.getTransactionFromDate().format(formatter));
-//			headers.set("minRecordCount", String.valueOf(dto.getMinRecordCount()));
-//			headers.set("maxRecordCount", String.valueOf(dto.getMaxRecordCount()));
-//			headers.setContentType(MediaType.APPLICATION_XML);
-//			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-//
-//			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl + "/SearchTransactions",
-//					requestEntity, String.class);
-//
-//			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-//		} catch (Exception e) {
-//			return ResponseEntity.status(500).body("Error: " + e.getMessage());
-//		}
-//	}
+	// public ResponseEntity<String> searchTransactions(SearchTransactionsRequestDTO
+	// dto) {
+	// DateTimeFormatter formatter =
+	// DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+	// try {
+	// byte[] xmlPayload = xmlUtil.convertToXml(dto);
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.set("login", dto.getLogin());
+	// headers.set("pwd", dto.getPwd());
+	// headers.set("direction", dto.getDirection());
+	// headers.set("callerLicense", dto.getCallerLicense());
+	// headers.set("clinicianLicense", dto.getClinicianLicense());
+	// headers.set("memberID", String.valueOf(dto.getMemberID()));
+	// headers.set("eRxReferenceNo", String.valueOf(dto.geteRxReferenceNo()));
+	// headers.set("transactionStatus", dto.getTransactionStatus());
+	// headers.set("transactionFromDate",
+	// dto.getTransactionFromDate().format(formatter));
+	// headers.set("transactionToDate",
+	// dto.getTransactionFromDate().format(formatter));
+	// headers.set("minRecordCount", String.valueOf(dto.getMinRecordCount()));
+	// headers.set("maxRecordCount", String.valueOf(dto.getMaxRecordCount()));
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	//
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl +
+	// "/SearchTransactions",
+	// requestEntity, String.class);
+	//
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 
 	@Transactional
 	public ResponseEntity<String> downloadTransactionFile(DownloadTransactionFileRequestDTO dto) {
@@ -562,7 +597,7 @@ public class EclaimService {
 			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
 
 			// Call external DHA web service
-			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl  + "/DownloadTransactionFile",
+			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/DownloadTransactionFile",
 					requestEntity, String.class);
 
 			String responseBody = response.getBody();
@@ -598,21 +633,24 @@ public class EclaimService {
 		}
 	}
 
-//	public ResponseEntity<String> downloadTransactionFile(DownloadTransactionFileRequestDTO dto) {
-//		try {
-//			byte[] xmlPayload = xmlUtil.convertToXml(dto);
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_XML);
-//			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-//
-//			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl + "/DownloadTransactionFile",
-//					requestEntity, String.class);
-//
-//			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-//		} catch (Exception e) {
-//			return ResponseEntity.status(500).body("Error: " + e.getMessage());
-//		}
-//	}
+	// public ResponseEntity<String>
+	// downloadTransactionFile(DownloadTransactionFileRequestDTO dto) {
+	// try {
+	// byte[] xmlPayload = xmlUtil.convertToXml(dto);
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	//
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl +
+	// "/DownloadTransactionFile",
+	// requestEntity, String.class);
+	//
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 
 	@Transactional
 	public ResponseEntity<String> setTransactionDownloaded(SetTransactionDownloadedRequestDTO dto) {
@@ -631,7 +669,7 @@ public class EclaimService {
 			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
 
 			// Call external DHPO/eRx web service
-			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl  + "/SetTransactionDownloaded",
+			ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/SetTransactionDownloaded",
 					requestEntity, String.class);
 
 			String responseBody = response.getBody();
@@ -667,19 +705,22 @@ public class EclaimService {
 		}
 	}
 
-//	public ResponseEntity<String> setTransactionDownloaded(SetTransactionDownloadedRequestDTO dto) {
-//		try {
-//			byte[] xmlPayload = xmlUtil.convertToXml(dto);
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_XML);
-//			HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
-//
-//			ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl + "/SetTransactionDownloaded",
-//					requestEntity, String.class);
-//
-//			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-//		} catch (Exception e) {
-//			return ResponseEntity.status(500).body("Error: " + e.getMessage());
-//		}
-//	}
+	// public ResponseEntity<String>
+	// setTransactionDownloaded(SetTransactionDownloadedRequestDTO dto) {
+	// try {
+	// byte[] xmlPayload = xmlUtil.convertToXml(dto);
+	// HttpHeaders headers = new HttpHeaders();
+	// headers.setContentType(MediaType.APPLICATION_XML);
+	// HttpEntity<byte[]> requestEntity = new HttpEntity<>(xmlPayload, headers);
+	//
+	// ResponseEntity<String> response = restTemplate.postForEntity(eclaimUrl +
+	// "/SetTransactionDownloaded",
+	// requestEntity, String.class);
+	//
+	// return
+	// ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Error: " + e.getMessage());
+	// }
+	// }
 }
