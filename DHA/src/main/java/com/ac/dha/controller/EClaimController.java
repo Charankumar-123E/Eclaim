@@ -44,6 +44,11 @@ public class EClaimController {
 	public ResponseEntity<String> getNewTransactions(@RequestBody GetNewTransactionsRequestDTO dto) {
 		return eclaimService.getNewTransactions(dto);
 	}
+	
+	@PostMapping("/get-new-transactions")
+	public ResponseEntity<String> getNewTransaction(@RequestBody GetNewTransactionsRequestDTO dto) {
+		return eclaimService.getNewTransactions(dto);
+	}
 
 	@PostMapping("/get-erx-transaction")
 	public ResponseEntity<String> geteRxTransaction(@RequestBody GeteRxTransactionRequestDTO dto) {
