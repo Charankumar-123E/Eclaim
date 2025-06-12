@@ -19,24 +19,6 @@ public class GetNewTransactionsResponseDTO {
 	@XmlElement(name = "ErrorMessage")
 	private String errorMessage;
 
-	@XmlElement(name = "UploadERxRequestResult")
-	private int uploadERxRequestResult;
-
-	public int getUploadERxRequestResult() {
-		return uploadERxRequestResult;
-	}
-
-	public void setUploadERxRequestResult(int uploadERxRequestResult) {
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
-	public GetNewTransactionsResponseDTO(String xmlTransactions, String errorMessage, int uploadERxRequestResult) {
-		super();
-		this.xmlTransactions = xmlTransactions;
-		this.errorMessage = errorMessage;
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
 	public GetNewTransactionsResponseDTO() {
 	}
 
@@ -59,7 +41,7 @@ public class GetNewTransactionsResponseDTO {
 	@Override
 	public String toString() {
 		return "GetNewTransactionsResponseDTO [xmlTransactions=" + xmlTransactions + ", errorMessage=" + errorMessage
-				+ ", uploadERxRequestResult=" + uploadERxRequestResult + "]";
+				+ "]";
 	}
 
 	public GetNewTransactionsResponseDTO(String xmlTransactions, String errorMessage) {

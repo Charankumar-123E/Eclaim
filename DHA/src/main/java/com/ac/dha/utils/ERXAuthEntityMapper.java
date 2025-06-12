@@ -5,14 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.ac.dha.dto.request.AuthActivityDTO;
-import com.ac.dha.dto.request.AuthAuthorizationDTO;
-import com.ac.dha.dto.request.ErxRequestAuthDTO;
-import com.ac.dha.dto.request.HeaderDTO;
-import com.ac.dha.entties.AuthActivity;
-import com.ac.dha.entties.AuthAuthorization;
-import com.ac.dha.entties.Header;
-import com.ac.dha.entties.PriorAuthorization;
+import com.ac.dha.DTO.request.AuthActivityDTO;
+import com.ac.dha.DTO.request.AuthAuthorizationDTO;
+import com.ac.dha.DTO.request.ErxRequestAuthDTO;
+import com.ac.dha.DTO.request.HeaderDTO;
+import com.ac.dha.entity.AuthActivity;
+import com.ac.dha.entity.AuthAuthorization;
+import com.ac.dha.entity.Header;
+import com.ac.dha.entity.PriorAuthorization;
 
 @Component
 public class ERXAuthEntityMapper {

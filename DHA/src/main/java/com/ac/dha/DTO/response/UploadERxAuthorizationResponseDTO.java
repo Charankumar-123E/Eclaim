@@ -27,8 +27,7 @@ public class UploadERxAuthorizationResponseDTO {
 	@Override
 	public String toString() {
 		return "UploadERxAuthorizationResponseDTO [payerLogin=" + payerLogin + ", payerPwd=" + payerPwd
-				+ ", fileContent=" + Arrays.toString(fileContent) + ", fileName=" + fileName
-				+ ", uploadERxRequestResult=" + uploadERxRequestResult + "]";
+				+ ", fileContent=" + Arrays.toString(fileContent) + ", fileName=" + fileName + "]";
 	}
 
 	public String getPayerLogin() {
@@ -74,27 +73,6 @@ public class UploadERxAuthorizationResponseDTO {
 
 	@XmlElement(name = "FileName")
 	private String fileName;
-
-	@XmlElement(name = "UploadERxRequestResult")
-	private int uploadERxRequestResult;
-
-	public UploadERxAuthorizationResponseDTO(String payerLogin, String payerPwd, byte[] fileContent, String fileName,
-			int uploadERxRequestResult) {
-		super();
-		this.payerLogin = payerLogin;
-		this.payerPwd = payerPwd;
-		this.fileContent = fileContent;
-		this.fileName = fileName;
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
-	public int getUploadERxRequestResult() {
-		return uploadERxRequestResult;
-	}
-
-	public void setUploadERxRequestResult(int uploadERxRequestResult) {
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
 
 	// Optional: If Lombok @Data is used, the following getters/setters are
 	// redundant.

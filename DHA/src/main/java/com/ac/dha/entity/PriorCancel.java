@@ -11,18 +11,15 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-// @EntityListeners({ CustomUniqueCodeListener.class, EpochTimeProcessor.class, CustomColumnProcessor.class })
-@Table(name = "tbl_eclaim_prior_requests")
-public class PriorRequest {
+@Table(name = "tbl_eclaim_prior_cancel")
+public class PriorCancel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "uniq_id")
-	// @CustomUniqueCode(entityType = "clinicalEditHistory", prefix = "ECPR",
-	// numberWidth = 10)
-	public String uniqId;
+	private Long uniq_id;
 
 	@Column(name = "create_by")
 	public String createBy;
@@ -40,19 +37,19 @@ public class PriorRequest {
 	@Column(name = "header_uniq_id")
 	private String headerUniqId;
 
-	@Column(name = "authorization_uniq_id")
-	private String authorizationUniqId;
+	@Column(name = "cancelAuthorization_uniq_id")
+	private String cancelAuthorizationUniqId;
+
+	public PriorCancel() {
+	}
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "header_id")
 	private Header header;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "authorization_id")
-	private Authorization authorization;
-
-	public PriorRequest() {
-	}
+	@JoinColumn(name = "cancelAuthorization_id")
+	private CancelAuthorization authAuthorization;
 
 	public Long getId() {
 		return id;
@@ -62,12 +59,12 @@ public class PriorRequest {
 		this.id = id;
 	}
 
-	public String getUniqId() {
-		return uniqId;
+	public Long getUniq_id() {
+		return uniq_id;
 	}
 
-	public void setUniqId(String uniqId) {
-		this.uniqId = uniqId;
+	public void setUniq_id(Long uniq_id) {
+		this.uniq_id = uniq_id;
 	}
 
 	public String getCreateBy() {
@@ -110,12 +107,12 @@ public class PriorRequest {
 		this.headerUniqId = headerUniqId;
 	}
 
-	public String getAuthorizationUniqId() {
-		return authorizationUniqId;
+	public String getCancelAuthorizationUniqId() {
+		return cancelAuthorizationUniqId;
 	}
 
-	public void setAuthorizationUniqId(String authorizationUniqId) {
-		this.authorizationUniqId = authorizationUniqId;
+	public void setCancelAuthorizationUniqId(String cancelAuthorizationUniqId) {
+		this.cancelAuthorizationUniqId = cancelAuthorizationUniqId;
 	}
 
 	public Header getHeader() {
@@ -126,35 +123,36 @@ public class PriorRequest {
 		this.header = header;
 	}
 
-	public Authorization getAuthorization() {
-		return authorization;
+	public CancelAuthorization getCancelAuthAuthorization() {
+		return authAuthorization;
 	}
 
-	public void setAuthorization(Authorization authorization) {
-		this.authorization = authorization;
+	public void setCancelAuthAuthorization(CancelAuthorization authAuthorization) {
+		this.authAuthorization = authAuthorization;
 	}
 
 	@Override
 	public String toString() {
-		return "PriorRequest [id=" + id + ", uniqId=" + uniqId + ", createBy=" + createBy + ", createOn=" + createOn
+		return "PriorCancel [id=" + id + ", uniq_id=" + uniq_id + ", createBy=" + createBy + ", createOn=" + createOn
 				+ ", patientUhid=" + patientUhid + ", patientNo=" + patientNo + ", headerUniqId=" + headerUniqId
-				+ ", authorizationUniqId=" + authorizationUniqId + ", header=" + header + ", authorization="
-				+ authorization + "]";
+				+ ", cancelAuthorizationUniqId=" + cancelAuthorizationUniqId + ", header=" + header
+				+ ", authAuthorization=" + authAuthorization + "]";
 	}
 
-	public PriorRequest(Long id, String uniqId, String createBy, Long createOn, String patientUhid, String patientNo,
-			String headerUniqId, String authorizationUniqId, Header header, Authorization authorization) {
+	public PriorCancel(Long id, Long uniq_id, String createBy, Long createOn, String patientUhid, String patientNo,
+			String headerUniqId, String cancelAuthorizationUniqId, Header header,
+			CancelAuthorization authAuthorization) {
 		super();
 		this.id = id;
-		this.uniqId = uniqId;
+		this.uniq_id = uniq_id;
 		this.createBy = createBy;
 		this.createOn = createOn;
 		this.patientUhid = patientUhid;
 		this.patientNo = patientNo;
 		this.headerUniqId = headerUniqId;
-		this.authorizationUniqId = authorizationUniqId;
+		this.cancelAuthorizationUniqId = cancelAuthorizationUniqId;
 		this.header = header;
-		this.authorization = authorization;
+		this.authAuthorization = authAuthorization;
 	}
 
 }

@@ -24,17 +24,4 @@ public class EclaimHttpResponse {
 	public String getDescription(String key) {
 		return eclaimHttpResponse.getOrDefault(key, "Unknown code");
 	}
-
-	public Integer getCodeFromDescription(String description) {
-		for (Map.Entry<String, String> entry : eclaimHttpResponse.entrySet()) {
-			if (entry.getValue().equals(description)) {
-				try {
-					return Integer.valueOf(entry.getKey());
-				} catch (NumberFormatException e) {
-					return null;
-				}
-			}
-		}
-		return null;
-	}
 }

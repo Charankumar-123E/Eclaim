@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObservationDTO {
 
-	
 	@XmlElement(name = "Type")
 	private String type;
 
@@ -59,26 +58,6 @@ public class ObservationDTO {
 	public void setValueType(String valueType) {
 		this.valueType = valueType;
 	}
-	
-	public ObservationDTO(String type, String code, String value, String valueType) {
-		super();
-		this.type = type;
-		this.code = code;
-		this.value = value;
-		this.valueType = valueType;
-	}
-
-	@Override
-	public String toString() {
-		return "ObservationDTO [type=" + type + ", code=" + code + ", value=" + value + ", valueType=" + valueType
-				+ "]";
-	}
-
-	public ObservationDTO() {
-		super();
-	}
-
-
 	
 	
 

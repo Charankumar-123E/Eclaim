@@ -1,7 +1,5 @@
 package com.ac.dha.DTO.response;
 
-
-
 import com.ac.dha.DTO.request.HeaderDTO;
 
 import jakarta.xml.bind.annotation.XmlAccessType;

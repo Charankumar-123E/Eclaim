@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SetTransactionDownloadedResponseDTO")
@@ -15,26 +16,8 @@ public class SetTransactionDownloadedResponseDTO {
 	
 	@XmlElement(name = "ErrorMessage")
 	private String errorMessage;
-
-	@XmlElement(name = "UploadERxRequestResult")
-	private int uploadERxRequestResult;
-
-	public SetTransactionDownloadedResponseDTO(String errorMessage, int uploadERxRequestResult) {
-		super();
-		this.errorMessage = errorMessage;
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
-	public int getUploadERxRequestResult() {
-		return uploadERxRequestResult;
-	}
-
-	public void setUploadERxRequestResult(int uploadERxRequestResult) {
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
-	public SetTransactionDownloadedResponseDTO() {
-	}
+	
+	public SetTransactionDownloadedResponseDTO() {}
 
 	public String getErrorMessage() {
 		return errorMessage;
@@ -46,13 +29,13 @@ public class SetTransactionDownloadedResponseDTO {
 
 	@Override
 	public String toString() {
-		return "SetTransactionDownloadedResponseDTO [errorMessage=" + errorMessage + ", uploadERxRequestResult="
-				+ uploadERxRequestResult + "]";
+		return "SetTransactionDownloadedResponseDTO [errorMessage=" + errorMessage + "]";
 	}
 
 	public SetTransactionDownloadedResponseDTO(String errorMessage) {
 		super();
 		this.errorMessage = errorMessage;
 	}
-
+	
+	
 }

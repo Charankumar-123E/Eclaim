@@ -40,27 +40,6 @@ public class UploadERxRequestResponseDTO  {
 
 	@XmlElement(name = "ErrorReport")
 	private byte[] errorReport;
-	
-	@XmlElement(name = "UploadERxRequestResult")
-    private int uploadERxRequestResult;
-
-	public UploadERxRequestResponseDTO(String eRxReferenceNo, String status, String errorMessage, byte[] errorReport,
-			int uploadERxRequestResult) {
-		super();
-		this.eRxReferenceNo = eRxReferenceNo;
-		this.status = status;
-		this.errorMessage = errorMessage;
-		this.errorReport = errorReport;
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
-
-	public int getUploadERxRequestResult() {
-		return uploadERxRequestResult;
-	}
-
-	public void setUploadERxRequestResult(int uploadERxRequestResult) {
-		this.uploadERxRequestResult = uploadERxRequestResult;
-	}
 
 	public UploadERxRequestResponseDTO() {
 	}
@@ -92,8 +71,7 @@ public class UploadERxRequestResponseDTO  {
 	@Override
 	public String toString() {
 		return "UploadERxRequestResponseDTO [eRxReferenceNo=" + eRxReferenceNo + ", status=" + status
-				+ ", errorMessage=" + errorMessage + ", errorReport=" + Arrays.toString(errorReport)
-				+ ", uploadERxRequestResult=" + uploadERxRequestResult + "]";
+				+ ", errorMessage=" + errorMessage + ", errorReport=" + Arrays.toString(errorReport) + "]";
 	}
 
 	public UploadERxRequestResponseDTO(String eRxReferenceNo, String errorMessage, byte[] errorReport) {

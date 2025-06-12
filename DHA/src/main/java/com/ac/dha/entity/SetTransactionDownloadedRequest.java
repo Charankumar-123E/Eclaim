@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbl_eclaim_getNewTrxReq")
-public class GetNewTransactionsRequest {
+@Table(name = "tbl_eclaim_setTrxDwRq")
+public class SetTransactionDownloadedRequest {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +18,9 @@ public class GetNewTransactionsRequest {
 
 	private String pwd;
 
-	public GetNewTransactionsRequest() {
-	}
+	private String fileID;
+	
+	public SetTransactionDownloadedRequest() {}
 
 	public Long getId() {
 		return id;
@@ -45,16 +46,26 @@ public class GetNewTransactionsRequest {
 		this.pwd = pwd;
 	}
 
-	@Override
-	public String toString() {
-		return "GetNewTransactionsRequest [id=" + id + ", login=" + login + ", pwd=" + pwd + "]";
+	public String getFileID() {
+		return fileID;
 	}
 
-	public GetNewTransactionsRequest(Long id, String login, String pwd) {
+	public void setFileID(String fileID) {
+		this.fileID = fileID;
+	}
+
+	@Override
+	public String toString() {
+		return "SetTransactionDownloadedRequest [id=" + id + ", login=" + login + ", pwd=" + pwd + ", fileID=" + fileID
+				+ "]";
+	}
+
+	public SetTransactionDownloadedRequest(Long id, String login, String pwd, String fileID) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.pwd = pwd;
+		this.fileID = fileID;
 	}
 
 }

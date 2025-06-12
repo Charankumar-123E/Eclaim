@@ -18,8 +18,8 @@ public class SearchTransactionsResponseDTO {
 
 	@Override
 	public String toString() {
-		return "SearchTransactionsResponseDTO [uploadERxRequestResult=" + uploadERxRequestResult
-				+ ", foundTransactions=" + foundTransactions + ", errorMessage=" + errorMessage + "]";
+		return "SearchTransactionsResponseDTO [foundTransactions=" + foundTransactions + ", errorMessage="
+				+ errorMessage + "]";
 	}
 
 	public SearchTransactionsResponseDTO(String foundTransactions, String errorMessage) {
@@ -42,24 +42,6 @@ public class SearchTransactionsResponseDTO {
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
-	}
-
-	@XmlElement(name = "UploadERxRequestResult")
-	private int uploadERxRequestResult;
-
-	public SearchTransactionsResponseDTO(int uploadERxRequestResult, String foundTransactions, String errorMessage) {
-		super();
-		this.uploadERxRequestResult = uploadERxRequestResult;
-		this.foundTransactions = foundTransactions;
-		this.errorMessage = errorMessage;
-	}
-
-	public int getUploadERxRequestResult() {
-		return uploadERxRequestResult;
-	}
-
-	public void setUploadERxRequestResult(int uploadERxRequestResult) {
-		this.uploadERxRequestResult = uploadERxRequestResult;
 	}
 
 	@XmlElement(name = "FoundTransactions")

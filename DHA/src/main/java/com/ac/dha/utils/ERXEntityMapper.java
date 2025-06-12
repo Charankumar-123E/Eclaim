@@ -20,8 +20,6 @@ import com.ac.dha.entity.Header;
 import com.ac.dha.entity.Observation;
 import com.ac.dha.entity.PriorRequest;
 
-
-
 @Component
 public class ERXEntityMapper {
 
@@ -46,38 +44,62 @@ public class ERXEntityMapper {
 	}
 
 	private Authorization toAuthorization(AuthorizationDTO dto) {
-	    if (dto == null) {
-	        return null;
-	    }
+		if (dto == null) {
+			return null;
+		}
+		Authorization authorization = new Authorization();
+		authorization.setType(dto.getType());
+		authorization.setAuthorizationId(dto.getId());
+		authorization.setPatientMemberID(dto.getMemberID());
+		authorization.setPayerID(dto.getPayerID());
+		authorization.setEmiratesIDNumber(dto.getEmiratesIDNumber());
+		authorization.setDateOrdered(dto.getDateOrdered());
+		authorization.setEncounter(toEncounter(dto.getEncounter()));
+//		  UUID.randomUUID();
 
-	    Authorization authorization = new Authorization();
-	    authorization.setType(dto.getType());
-	    authorization.setAuthId(dto.getId());
-	    authorization.setMemberID(dto.getMemberID());
-	    authorization.setPayerID(dto.getPayerID());
-	    authorization.setEmiratesIDNumber(dto.getEmiratesIDNumber());
-	    authorization.setDateOrdered(dto.getDateOrdered());
-	    authorization.setEncounter(toEncounter(dto.getEncounter()));
+//		List<Diagnosis> diagnosisDTO = dto.getDiagnoses();
+//		authorization.setDiagnoses(diagnosisDTO != null
+//				? diagnosisDTO.stream().map(this::toDiagnosis)
+//						.peek(diagnosis -> diagnosis.setAuthorization(authorization)).collect(Collectors.toList())
+//				: new ArrayList<>());
 
-	    if (dto.getDiagnoses() != null) {
-	        List<Diagnosis> diagnoses = dto.getDiagnoses().stream()
-	            .map(this::toDiagnosis)
-	            .collect(Collectors.toList());
-	        diagnoses.forEach(diagnosis -> diagnosis.setAuthorization(authorization));
-	        authorization.setDiagnosis(diagnoses);
-	    }
+		if (dto.getDiagnoses() != null) {
+			List<Diagnosis> diagnoses = dto.getDiagnoses().stream().map(this::toDiagnosis).collect(Collectors.toList());
+			diagnoses.forEach(diagnosis -> diagnosis.setAuthorization(authorization));
+			authorization.setDiagnoses(diagnoses);
+		}
 
-	    if (dto.getActivities() != null) {
-	        List<Activity> activities = dto.getActivities().stream()
-	            .map(this::toActivity)
-	            .collect(Collectors.toList());
-	        activities.forEach(activity -> activity.setAuthorization(authorization));
-	        authorization.setActivities(activities);
-	    }
+		if (dto.getActivities() != null) {
+			List<Activity> activities = dto.getActivities().stream().map(this::toActivity).collect(Collectors.toList());
+			activities.forEach(activity -> activity.setAuthorization(authorization));
+			authorization.setActivities(activities);
+		}
 
-	   
+		if (dto.getObservation() != null) {
+			List<Observation> observations = dto.getObservation().stream().map(this::toObservation)
+					.collect(Collectors.toList());
+			observations.forEach(observation -> observation.setAuthorizationId(authorization));
+			authorization.setObservations(observations);
+		}
+//		List<Activity> activityDTO = dto.getActivities();
+//		authorization
+//				.setActivities(activityDTO != null
+//						? activityDTO.stream().map(this::toActivity)
+//								.peek(activity -> activity.setAuthorization(authorization)).collect(Collectors.toList())
+//						: new ArrayList<>());
 
-	    return authorization;
+//		List<Observation> observationDTO = dto.getObservation();
+//		authorization.setObservations(
+//				observationDTO != null ? observationDTO.stream().map(dtoObs ->toObservation(dtoObs, authorization)).peek(observation -> observation.setAuthorizationId(authorization)).collect(Collectors.toList())
+//						: new ArrayList<>());
+//		
+//		authorization.setObservations(
+//				dto.getObservation() != null
+//						? observationDTO.stream().map(dtoObs -> toObservation(dtoObs, authorization))
+//								.collect(Collectors.toList())
+//						: new ArrayList<>());
+
+		return authorization;
 	}
 
 	private Encounter toEncounter(EncounterDTO dto) {
