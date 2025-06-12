@@ -61,7 +61,7 @@ import jakarta.xml.bind.JAXBException;
 @Service
 public class EClaimService {
 
-	private final EclaimReceiverController eclaimReceiverController;
+//	private final EclaimReceiverController eclaimReceiverController;
 
 	public static final Logger log = LoggerFactory.getLogger(EClaimService.class);
 
@@ -114,9 +114,9 @@ public class EClaimService {
 	@Autowired
 	private Generator generator;
 
-	EClaimService(EclaimReceiverController eclaimReceiverController) {
-		this.eclaimReceiverController = eclaimReceiverController;
-	}
+//	EClaimService(EclaimReceiverController eclaimReceiverController) {
+//		this.eclaimReceiverController = eclaimReceiverController;
+//	}
 
 	public ResponseEntity<String> sendPriorRequestToEclaim(ErxRequestDTO priorRequest) {
 		try {
