@@ -1,12 +1,16 @@
 package com.ac.dha.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "tbl_eclaim_getNewTrxReq")
 public class GetNewTransactionsRequest {
 
@@ -17,44 +21,20 @@ public class GetNewTransactionsRequest {
 	private String login;
 
 	private String pwd;
+	
+	private LocalDateTime requestedAt;
+	
+	private Integer result;
+	
+	private String XmlTransactions;
+	
+	private String responseStatus;
 
-	public GetNewTransactionsRequest() {
-	}
+	private String errorMessage;
+	
 
-	public Long getId() {
-		return id;
-	}
+	
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	@Override
-	public String toString() {
-		return "GetNewTransactionsRequest [id=" + id + ", login=" + login + ", pwd=" + pwd + "]";
-	}
-
-	public GetNewTransactionsRequest(Long id, String login, String pwd) {
-		super();
-		this.id = id;
-		this.login = login;
-		this.pwd = pwd;
-	}
+	
 
 }

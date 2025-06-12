@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SearchTransactionsResponseDTO")
@@ -13,19 +14,18 @@ public class SearchTransactionsResponseDTO {
 	@XmlElement(name = "SearchTransactionsResult")
 	private Integer searchTransactionsResult;
 
-	public SearchTransactionsResponseDTO() {
+	@XmlElement(name = "FoundTransactions")
+	private String foundTransactions;
+
+	@XmlElement(name = "ErrorMessage")
+	private String errorMessage;
+
+	public Integer getSearchTransactionsResult() {
+		return searchTransactionsResult;
 	}
 
-	@Override
-	public String toString() {
-		return "SearchTransactionsResponseDTO [foundTransactions=" + foundTransactions + ", errorMessage="
-				+ errorMessage + "]";
-	}
-
-	public SearchTransactionsResponseDTO(String foundTransactions, String errorMessage) {
-		super();
-		this.foundTransactions = foundTransactions;
-		this.errorMessage = errorMessage;
+	public void setSearchTransactionsResult(Integer searchTransactionsResult) {
+		this.searchTransactionsResult = searchTransactionsResult;
 	}
 
 	public String getFoundTransactions() {
@@ -44,10 +44,24 @@ public class SearchTransactionsResponseDTO {
 		this.errorMessage = errorMessage;
 	}
 
-	@XmlElement(name = "FoundTransactions")
-	private String foundTransactions;
+	public SearchTransactionsResponseDTO(Integer searchTransactionsResult, String foundTransactions,
+			String errorMessage) {
+		super();
+		this.searchTransactionsResult = searchTransactionsResult;
+		this.foundTransactions = foundTransactions;
+		this.errorMessage = errorMessage;
+	}
 
-	@XmlElement(name = "ErrorMessage")
-	private String errorMessage;
+	public SearchTransactionsResponseDTO() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "SearchTransactionsResponseDTO [searchTransactionsResult=" + searchTransactionsResult
+				+ ", foundTransactions=" + foundTransactions + ", errorMessage=" + errorMessage + "]";
+	}
+	
+	
 
 }

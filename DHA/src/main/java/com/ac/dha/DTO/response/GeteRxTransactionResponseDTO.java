@@ -11,6 +11,8 @@ import lombok.Data;
 //@Data
 public class GeteRxTransactionResponseDTO {
 	
+
+	
 	@XmlElement(name = "ErxTransactionResult")
     private Integer erxTransactionResult;
 
@@ -37,18 +39,33 @@ public class GeteRxTransactionResponseDTO {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
+	
+	
 
-	public GeteRxTransactionResponseDTO(String xmlTransactions, String errorMessage) {
+	public Integer getErxTransactionResult() {
+		return erxTransactionResult;
+	}
+
+	public void setErxTransactionResult(Integer erxTransactionResult) {
+		this.erxTransactionResult = erxTransactionResult;
+	}
+
+	public GeteRxTransactionResponseDTO(Integer erxTransactionResult, String xmlTransactions, String errorMessage) {
 		super();
+		this.erxTransactionResult = erxTransactionResult;
 		this.xmlTransactions = xmlTransactions;
 		this.errorMessage = errorMessage;
 	}
 
 	@Override
 	public String toString() {
-		return "GeteRxTransactionResponseDTO [xmlTransactions=" + xmlTransactions + ", errorMessage=" + errorMessage
-				+ "]";
+		return "GeteRxTransactionResponseDTO [erxTransactionResult=" + erxTransactionResult + ", xmlTransactions="
+				+ xmlTransactions + ", errorMessage=" + errorMessage + "]";
 	}
+
+	
+	
+	
     
     
 }

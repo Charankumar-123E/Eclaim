@@ -8,7 +8,7 @@ import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SetTransactionDownloadedResponseDTO")
-//@Data
+@Data
 public class SetTransactionDownloadedResponseDTO {
 	
 	@XmlElement(name = "SetTransactionDownloadedResult")
@@ -17,25 +17,6 @@ public class SetTransactionDownloadedResponseDTO {
 	@XmlElement(name = "ErrorMessage")
 	private String errorMessage;
 	
-	public SetTransactionDownloadedResponseDTO() {}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-
-	@Override
-	public String toString() {
-		return "SetTransactionDownloadedResponseDTO [errorMessage=" + errorMessage + "]";
-	}
-
-	public SetTransactionDownloadedResponseDTO(String errorMessage) {
-		super();
-		this.errorMessage = errorMessage;
-	}
 	
 	
 }
