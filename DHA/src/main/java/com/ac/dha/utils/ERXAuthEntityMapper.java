@@ -53,7 +53,8 @@ public class ERXAuthEntityMapper {
 		authorization.setComments(dto.getComments());
 
 		if (dto.getActivity() != null) {
-			List<AuthActivity> activities = dto.getActivity().stream().map(this::toAuthActivities)
+			List<AuthActivity> activities = dto.getActivity().stream()
+					.map(this::toAuthActivities)
 					.collect(Collectors.toList());
 
 			activities.forEach(activity -> activity.setAuthAuthorization(authorization));

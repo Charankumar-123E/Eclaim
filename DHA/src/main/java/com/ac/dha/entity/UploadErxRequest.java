@@ -19,7 +19,7 @@ public class UploadERxRequest {
 	private Long id;
 
 	@Column(name = "uniq_id", nullable = false)
-	private String uniqId;
+	private Integer uniqId;
 
 	@Column(name = "facility_login")
 	private String facilityLogin;
@@ -50,12 +50,12 @@ public class UploadERxRequest {
 		this.id = id;
 	}
 
-	public String getUniqId() {
+	public Integer getUniqId() {
 		return uniqId;
 	}
 
-	public void setUniqId(String uniqId) {
-		this.uniqId = uniqId;
+	public void setUniqId(Integer i) {
+		this.uniqId = i;
 	}
 
 	public String getFacilityLogin() {
@@ -122,7 +122,7 @@ public class UploadERxRequest {
 		// ", eRxReferenceNo=" + eRxReferenceNo +
 	}
 
-	public UploadERxRequest(Long id, String uniqId, String facilityLogin, String facilityPwd, String clinicianLogin,
+	public UploadERxRequest(Long id, Integer uniqId, String facilityLogin, String facilityPwd, String clinicianLogin,
 			String clinicianPwd, String fileName, byte[] fileContent) {
 		super();
 		this.id = id;

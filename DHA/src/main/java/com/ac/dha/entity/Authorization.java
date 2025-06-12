@@ -55,28 +55,11 @@ public class Authorization {
 	@JoinColumn(name = "authorization_id")
 	private List<Activity> activities;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "authorization_id")
-	private List<Observation> observations;
+//	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//	@JoinColumn(name = "authorization_id")
+//	private List<Observation> observations;
 
 	public Authorization() {
-	}
-
-	public Authorization(Long id, String type, String uniqId, String authorizationId, String patientMemberID,
-			String payerID, String emiratesIDNumber, String dateOrdered, Encounter encounter, List<Diagnosis> diagnoses,
-			List<Activity> activities, List<Observation> observations) {
-		this.id = id;
-		this.type = type;
-		this.uniqId = uniqId;
-		this.authorizationId = authorizationId;
-		this.patientMemberID = patientMemberID;
-		this.payerID = payerID;
-		this.emiratesIDNumber = emiratesIDNumber;
-		this.dateOrdered = dateOrdered;
-		this.encounter = encounter;
-		this.diagnoses = diagnoses;
-		this.activities = activities;
-		this.observations = observations;
 	}
 
 	public Long getId() {
@@ -167,24 +150,29 @@ public class Authorization {
 		this.activities = activities;
 	}
 
-	public List<Observation> getObservations() {
-		return observations;
-	}
-
-	public void setObservations(List<Observation> observations) {
-		this.observations = observations;
-	}
-
-	public void addObservation(Observation observation) {
-		observations.add(observation);
-		observation.setAuthorizationId(this);
-	}
-
 	@Override
 	public String toString() {
 		return "Authorization [id=" + id + ", type=" + type + ", uniqId=" + uniqId + ", authorizationId="
 				+ authorizationId + ", patientMemberID=" + patientMemberID + ", payerID=" + payerID
 				+ ", emiratesIDNumber=" + emiratesIDNumber + ", dateOrdered=" + dateOrdered + ", encounter=" + encounter
-				+ ", diagnoses=" + diagnoses + ", activities=" + activities + ", observations=" + observations + "]";
+				+ ", diagnoses=" + diagnoses + ", activities=" + activities + "]";
 	}
+
+	public Authorization(Long id, String type, String uniqId, String authorizationId, String patientMemberID,
+			String payerID, String emiratesIDNumber, String dateOrdered, Encounter encounter, List<Diagnosis> diagnoses,
+			List<Activity> activities) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.uniqId = uniqId;
+		this.authorizationId = authorizationId;
+		this.patientMemberID = patientMemberID;
+		this.payerID = payerID;
+		this.emiratesIDNumber = emiratesIDNumber;
+		this.dateOrdered = dateOrdered;
+		this.encounter = encounter;
+		this.diagnoses = diagnoses;
+		this.activities = activities;
+	}
+
 }

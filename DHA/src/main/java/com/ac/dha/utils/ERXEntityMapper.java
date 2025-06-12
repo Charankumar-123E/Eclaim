@@ -75,12 +75,12 @@ public class ERXEntityMapper {
 			authorization.setActivities(activities);
 		}
 
-		if (dto.getObservation() != null) {
-			List<Observation> observations = dto.getObservation().stream().map(this::toObservation)
-					.collect(Collectors.toList());
-			observations.forEach(observation -> observation.setAuthorizationId(authorization));
-			authorization.setObservations(observations);
-		}
+//		if (dto.getObservation() != null) {
+//			List<Observation> observations = dto.getObservation().stream().map(this::toObservation)
+//					.collect(Collectors.toList());
+//			observations.forEach(observation -> observation.setAuthorizationId(authorization));
+//			authorization.setObservations(observations);
+//		}
 //		List<Activity> activityDTO = dto.getActivities();
 //		authorization
 //				.setActivities(activityDTO != null
