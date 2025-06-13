@@ -46,7 +46,7 @@ public class PharmacyEntityMapper {
 	private Prescription toPrescription(PharamacyPrescriptionDTO dto) {
 		Prescription prescription = new Prescription();
 
-		prescription.setPresId(dto.getId());
+		prescription.setPresId(dto.getPresId());
 		prescription.setType(dto.getType());
 		prescription.setPayerID(dto.getPayerID());
 		prescription.setClinician(dto.getClinician());

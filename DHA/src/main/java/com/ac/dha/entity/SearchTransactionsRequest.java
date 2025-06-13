@@ -2,10 +2,12 @@ package com.ac.dha.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -18,8 +20,10 @@ public class SearchTransactionsRequest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(length = 50)
 	private String login;
 
+	@Column(length = 50)
 	private String pwd;
 
 	private String direction;
@@ -41,29 +45,20 @@ public class SearchTransactionsRequest {
 	private int minRecordCount;
 
 	private int maxRecordCount;
-	
+
 	private LocalDateTime RequestedAt;
-	
+
 	private String responseStatus;
-	
+
 	private String foundTransactions;
-	
+
+	@Lob
+	@Column(columnDefinition = "TEXT")
 	private String errorMessage;
-	
+
 	private Integer searchTransactionResult;
-	
-	
-	
-	public SearchTransactionsRequest() {}
 
-
-
-	
-
-
-
-	
-
-	
+	public SearchTransactionsRequest() {
+	}
 
 }

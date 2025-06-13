@@ -1,12 +1,11 @@
 package com.ac.dha.entity;
 
-import java.util.Arrays;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -18,126 +17,36 @@ public class UploadERxRequest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "uniq_id", nullable = false)
+	@Column(name = "uniq_id")
 	private Integer uniqId;
 
-	@Column(name = "facility_login")
+	@Column(name = "facility_login", length = 100)
 	private String facilityLogin;
 
-	@Column(name = "facility_pwd")
+	@Column(name = "facility_pwd", length = 100)
 	private String facilityPwd;
 
-	@Column(name = "clinician_login")
+	@Column(name = "clinician_login", length = 100)
 	private String clinicianLogin;
 
-	@Column(name = "clinician_pwd")
+	@Column(name = "clinician_pwd", length = 100)
 	private String clinicianPwd;
 
-	@Column(name = "file_name")
+	@Column(name = "file_name", length = 255)
 	private String fileName;
 
-	@Column(name = "file_content")
+	@Column(name = "e_rx_reference_no", length = 100)
+	private String eRxReferenceNo;
+
+	@Lob
+	@Column(name = "error_message")
+	private String errorMessage;
+
+	@Lob
+	@Column(name = "file_content", columnDefinition = "TEXT")
 	private byte[] fileContent;
 
-	@Column(name = "e_rx_reference_no") 
-	private String  eRxReferenceNo;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getUniqId() {
-		return uniqId;
-	}
-
-	public void setUniqId(Integer i) {
-		this.uniqId = i;
-	}
-
-	public String getFacilityLogin() {
-		return facilityLogin;
-	}
-
-	public void setFacilityLogin(String facilityLogin) {
-		this.facilityLogin = facilityLogin;
-	}
-
-	public String getFacilityPwd() {
-		return facilityPwd;
-	}
-
-	public void setFacilityPwd(String facilityPwd) {
-		this.facilityPwd = facilityPwd;
-	}
-
-	public String getClinicianLogin() {
-		return clinicianLogin;
-	}
-
-	public void setClinicianLogin(String clinicianLogin) {
-		this.clinicianLogin = clinicianLogin;
-	}
-
-	public String getClinicianPwd() {
-		return clinicianPwd;
-	}
-
-	public void setClinicianPwd(String clinicianPwd) {
-		this.clinicianPwd = clinicianPwd;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public byte[] getFileContent() {
-		return fileContent;
-	}
-
-	public void setFileContent(byte[] fileContent) {
-		this.fileContent = fileContent;
-	}
-
-	public String  geteRxReferenceNo() {
-		return eRxReferenceNo;
-	}
-
-	public void seteRxReferenceNo(String generatedERxRefNo) {
-		this.eRxReferenceNo = generatedERxRefNo;
-	}
-
-	@Override
-	public String toString() {
-		return "UploadERxRequest [id=" + id + ", uniqId=" + uniqId + ", facilityLogin=" + facilityLogin
-				+ ", facilityPwd=" + facilityPwd + ", clinicianLogin=" + clinicianLogin + ", clinicianPwd="
-				+ clinicianPwd + ", fileName=" + fileName + ", fileContent=" + Arrays.toString(fileContent) + "]";
-		// ", eRxReferenceNo=" + eRxReferenceNo +
-	}
-
-	public UploadERxRequest(Long id, Integer uniqId, String facilityLogin, String facilityPwd, String clinicianLogin,
-			String clinicianPwd, String fileName, byte[] fileContent) {
-		super();
-		this.id = id;
-		this.uniqId = uniqId;
-		this.facilityLogin = facilityLogin;
-		this.facilityPwd = facilityPwd;
-		this.clinicianLogin = clinicianLogin;
-		this.clinicianPwd = clinicianPwd;
-		this.fileName = fileName;
-		this.fileContent = fileContent;
-//		this.eRxReferenceNo = eRxReferenceNo;
-	}
-
-	public UploadERxRequest() {
-		// TODO Auto-generated constructor stub
-	}
-
+	@Lob
+	@Column(name = "error_report", columnDefinition = "TEXT")
+	private byte[] errorReport;
 }

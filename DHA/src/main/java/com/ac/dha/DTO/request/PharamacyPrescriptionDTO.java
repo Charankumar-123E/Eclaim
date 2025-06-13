@@ -13,28 +13,28 @@ import lombok.Data;
 @Data
 public class PharamacyPrescriptionDTO {
 
-	@XmlElement(name = "ID")
-	private String id;
+	@XmlElement(name = "pharamacyPrescription_id")
+	private String presId;
 
-	@XmlElement(name = "Type")
+	@XmlElement(name = "type")
 	private String type;
 
-	@XmlElement(name = "PayerID")
+	@XmlElement(name = "payerID")
 	private String payerID;
 
-	@XmlElement(name = "Clinician")
+	@XmlElement(name = "clinician")
 	private String clinician;
 
-	@XmlElement(name = "Patient")
+	@XmlElement(name = "patient")
 	private PatientDTO patient;
 
-	@XmlElement(name = "Encounter")
+	@XmlElement(name = "encounter")
 	private EncounterDTO encounter;
 
-	@XmlElement(name = "Diagnosis")
+	@XmlElement(name = "pharmDiagnosis")
 	private List<PharamacyDiagnosisDTO> pharmDiagnosis;
 
-	@XmlElement(name = "Activity")
+	@XmlElement(name = "pharmActivity")
 	private List<PharamacyActivityDTO> pharmActivity;
 
 }
