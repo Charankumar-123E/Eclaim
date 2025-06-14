@@ -12,8 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
+@Data
+@ToString(exclude = {"authorization", "observations"})
 @Table(name = "tbl_eclaim_activity")
 public class Activity {
 
@@ -49,116 +53,4 @@ public class Activity {
 	@JoinColumn(name = "activity_id", referencedColumnName = "id")
 	private List<Observation> observations;
 
-	public Activity() {
-	}
-
-	public Activity(Long id, String uniqId, String start, String type, String code, int quantity,
-			double net, String clinician, Authorization authorization, List<Observation> observations) {
-		this.id = id;
-		this.uniqId = uniqId;
-//		this.activityId = activityId;
-		this.start = start;
-		this.type = type;
-		this.code = code;
-		this.quantity = quantity;
-		this.net = net;
-		this.clinician = clinician;
-		this.authorization = authorization;
-		this.observations = observations;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUniqId() {
-		return uniqId;
-	}
-
-	public void setUniqId(String uniqId) {
-		this.uniqId = uniqId;
-	}
-
-//	public String getActivityId() {
-//		return activityId;
-//	}
-//
-//	public void setActivityId(String activityId) {
-//		this.activityId = activityId;
-//	}
-
-	public String getStart() {
-		return start;
-	}
-
-	public void setStart(String start) {
-		this.start = start;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getNet() {
-		return net;
-	}
-
-	public void setNet(double net) {
-		this.net = net;
-	}
-
-	public String getClinician() {
-		return clinician;
-	}
-
-	public void setClinician(String clinician) {
-		this.clinician = clinician;
-	}
-
-	public Authorization getAuthorization() {
-		return authorization;
-	}
-
-	public void setAuthorization(Authorization authorization) {
-		this.authorization = authorization;
-	}
-
-	public List<Observation> getObservations() {
-		return observations;
-	}
-
-	public void setObservations(List<Observation> observations) {
-		this.observations = observations;
-	}
-
-	@Override
-	public String toString() {
-		return "Activity [id=" + id + ", uniqId=" + uniqId + ", activityId="  + ", start=" + start
-				+ ", type=" + type + ", code=" + code + ", quantity=" + quantity + ", net=" + net + ", clinician="
-				+ clinician + ", authorization=" + authorization + ", observations=" + observations + "]";
-	}
 }

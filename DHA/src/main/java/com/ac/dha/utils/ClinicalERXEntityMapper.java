@@ -54,7 +54,11 @@ public class ClinicalERXEntityMapper {
 		authorization.setPayerID(dto.getPayerID());
 		authorization.setEmiratesIDNumber(dto.getEmiratesIDNumber());
 		authorization.setDateOrdered(dto.getDateOrdered());
-		authorization.setEncounter(toEncounter(dto.getEncounter()));
+//		authorization.setEncounter(toEncounter(dto.getEncounter()));
+		Encounter encounter = new Encounter();
+		if(encounter != null) {
+			authorization.setEncounter(encounter);
+		}
 		if (dto.getDiagnoses() != null) {
 			List<Diagnosis> diagnoses = dto.getDiagnoses().stream().map(this::toDiagnosis).collect(Collectors.toList());
 			diagnoses.forEach(diagnosis -> diagnosis.setAuthorization(authorization));
@@ -77,7 +81,7 @@ public class ClinicalERXEntityMapper {
 		Encounter encounter = new Encounter();
 		encounter.setFacilityID(dto.getFacilityID());
 		encounter.setType(dto.getType());
-		encounter.setAuthorization(null);
+//		encounter.setAuthorization(null);
 		return encounter;
 	}
 

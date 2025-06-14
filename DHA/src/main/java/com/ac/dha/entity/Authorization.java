@@ -12,8 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
+@Data
+@ToString(exclude = {"activities", "diagnoses"})
 @Table(name = "tbl_eclaim_auth")
 public class Authorization {
 
@@ -59,120 +63,6 @@ public class Authorization {
 //	@JoinColumn(name = "authorization_id")
 //	private List<Observation> observations;
 
-	public Authorization() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getUniqId() {
-		return uniqId;
-	}
-
-	public void setUniqId(String uniqId) {
-		this.uniqId = uniqId;
-	}
-
-	public String getAuthorizationId() {
-		return authorizationId;
-	}
-
-	public void setAuthorizationId(String authorizationId) {
-		this.authorizationId = authorizationId;
-	}
-
-	public String getPatientMemberID() {
-		return patientMemberID;
-	}
-
-	public void setPatientMemberID(String patientMemberID) {
-		this.patientMemberID = patientMemberID;
-	}
-
-	public String getPayerID() {
-		return payerID;
-	}
-
-	public void setPayerID(String payerID) {
-		this.payerID = payerID;
-	}
-
-	public String getEmiratesIDNumber() {
-		return emiratesIDNumber;
-	}
-
-	public void setEmiratesIDNumber(String emiratesIDNumber) {
-		this.emiratesIDNumber = emiratesIDNumber;
-	}
-
-	public String getDateOrdered() {
-		return dateOrdered;
-	}
-
-	public void setDateOrdered(String dateOrdered) {
-		this.dateOrdered = dateOrdered;
-	}
-
-	public Encounter getEncounter() {
-		return encounter;
-	}
-
-	public void setEncounter(Encounter encounter) {
-		this.encounter = encounter;
-	}
-
-	public List<Diagnosis> getDiagnoses() {
-		return diagnoses;
-	}
-
-	public void setDiagnoses(List<Diagnosis> diagnoses) {
-		this.diagnoses = diagnoses;
-	}
-
-	public List<Activity> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(List<Activity> activities) {
-		this.activities = activities;
-	}
-
-	@Override
-	public String toString() {
-		return "Authorization [id=" + id + ", type=" + type + ", uniqId=" + uniqId + ", authorizationId="
-				+ authorizationId + ", patientMemberID=" + patientMemberID + ", payerID=" + payerID
-				+ ", emiratesIDNumber=" + emiratesIDNumber + ", dateOrdered=" + dateOrdered + ", encounter=" + encounter
-				+ ", diagnoses=" + diagnoses + ", activities=" + activities + "]";
-	}
-
-	public Authorization(Long id, String type, String uniqId, String authorizationId, String patientMemberID,
-			String payerID, String emiratesIDNumber, String dateOrdered, Encounter encounter, List<Diagnosis> diagnoses,
-			List<Activity> activities) {
-		super();
-		this.id = id;
-		this.type = type;
-		this.uniqId = uniqId;
-		this.authorizationId = authorizationId;
-		this.patientMemberID = patientMemberID;
-		this.payerID = payerID;
-		this.emiratesIDNumber = emiratesIDNumber;
-		this.dateOrdered = dateOrdered;
-		this.encounter = encounter;
-		this.diagnoses = diagnoses;
-		this.activities = activities;
-	}
+	
 
 }
